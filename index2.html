@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style type="text/css">
+    html {
+    height: 100%;
+    }
+    body {
+      height: 100%;
+      margin: 0px;
+      font-family: Helvetica, Arial;
+    }
+  </style>
+  <script type="text/javascript">
+    
+  var map;
+var directionDisplay;
+var directionsService;
+var stepDisplay;
+var markerArray = [];
+var position;
+var marker = null;
+var polyline = null;
+var poly2 = null;
+var speed = 0.000005,
+  wait = 1;
+var infowindow = null;
+var timerHandle = null;
+
+function createMarker(latlng, label, html) {
+  var contentString = '<b>' + label + '</b><br>' + html;
+  var marker = new google.maps.Marker({
+    position: latlng,
+    map: map,
+    title: label,
+    zIndex: Math.round(latlng.lat() * -100000) << 5
+  });
+  marker.myname = label;
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.setContent(contentString);
+    infowindow.open(map, marker);
+  });
+  return marker;
+}
+
+function initialize() {
+  infowindow = new google.maps.InfoWindow({
+    size: new google.maps.Size(150, 50)
+  });
+  // Instantiate a directions service.
+  directionsService = new google.maps.DirectionsService();
+</script>
+</head>
+<body>
+
+<script src="https://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+<div id="tools">start:
+  <input type="text" name="start" id="start" value="union square, NY" />end:
+  <input type="text" name="end" id="end" value="times square, NY" />
+  <input type="submit" onclick="calcRoute();" />
+</div>
+<div id="map_canvas" style="width:100%;height:90%;"></div>
+
+</body>
+</html>
